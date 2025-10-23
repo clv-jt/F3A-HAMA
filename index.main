@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>F3A HAMA!!!</title>
+  <style>
+    /* Reset */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+
+    /* Background */
+    body{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background: radial-gradient( circle at 10% 10%, #0f172a 0%, #000000 40% ), linear-gradient(135deg,#071329 0%, #0b1220 100%);
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      color:#ff3b3b;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      height:100vh;
+      overflow:hidden;
+    }
+
+    /* Big centered text */
+    h1{
+      font-weight:900;
+      /* scale with viewport but clamp for extremes */
+      font-size:clamp(48px, 18vw, 320px);
+      line-height:0.9;
+      text-align:center;
+      text-transform:uppercase;
+      letter-spacing:0.02em;
+      transform:translateZ(0);
+      filter:drop-shadow(0 10px 30px rgba(0,0,0,0.7));
+      user-select:none;
+      padding:0 5vw;
+    }
+
+    /* Glowing outline */
+    .glow{
+      color:#fff;
+      background: linear-gradient(90deg,#ff3b3b 0%, #ff8a00 50%, #ffd400 100%);
+      -webkit-background-clip:text;
+      background-clip:text;
+      -webkit-text-fill-color:transparent;
+      position:relative;
+    }
+    .glow::after{
+      content:attr(data-text);
+      position:absolute;
+      left:0;right:0;top:0;bottom:0;
+      z-index:-1;
+      filter:blur(18px) saturate(150%);
+      opacity:0.8;
+      background:linear-gradient(90deg,#ff3b3b 0%, #ff8a00 40%, #ffd400 100%);
+      -webkit-background-clip:text;
+      background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+
+    /* Subtle breathing animation */
+    @keyframes breathe {
+      0%{transform:scale(1)}
+      50%{transform:scale(1.02)}
+      100%{transform:scale(1)}
+    }
+    h1{animation:breathe 4s ease-in-out infinite}
+
+    /* Make text unselectable on mobile and desktop */
+    h1, h1 *{pointer-events:none}
+
+    /* Small helper for keyboard (ESC to clear) */
+    .hint{
+      position:fixed;bottom:14px;left:50%;transform:translateX(-50%);
+      font-size:12px;color:rgba(255,255,255,0.65);font-weight:600;
+      background:rgba(0,0,0,0.25);padding:6px 10px;border-radius:999px;
+      backdrop-filter:blur(6px);
+    }
+  </style>
+</head>
+<body>
+  <h1 class="glow" data-text="F3A HAMA!!!">F3A HAMA!!!</h1>
+  <div class="hint">Tekan <strong>Esc</strong> untuk mengosongkan layar • Tekan lagi untuk memunculkan</div>
+
+  <script>
+    // Allow ESC to toggle visibility (nice tiny interaction)
+    (function(){
+      const h = document.querySelector('h1');
+      const hint = document.querySelector('.hint');
+      let visible = true;
+      document.addEventListener('keydown', (e)=>{
+        if(e.key === 'Escape'){
+          visible = !visible;
+          h.style.opacity = visible ? '1' : '0';
+          hint.style.opacity = visible ? '1' : '0';
+        }
+      });
+
+      // Tap/click to toggle on touch devices
+      document.addEventListener('click', ()=>{
+        visible = !visible;
+        h.style.opacity = visible ? '1' : '0';
+        hint.style.opacity = visible ? '1' : '0';
+      });
+
+      // Prevent accidental text selection on double-tap
+      document.addEventListener('touchstart', (e)=>{e.preventDefault();}, {passive:false});
+    })();
+  </script>
+</body>
+</html>
